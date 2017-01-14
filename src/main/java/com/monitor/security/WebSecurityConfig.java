@@ -2,6 +2,8 @@ package com.monitor.security;
 
 import com.monitor.security.jwt.JWTAuthenticationFilter;
 import com.monitor.security.jwt.JWTLoginFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.sql.DataSource;
+import java.util.List;
+
 /**
  * Created by grusz on 02.01.2017.
  */
@@ -17,6 +22,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${variablefromproperties}")
+    private List<Integer> properties;
+
+    @Autowired
+    protected void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+
+        auth.jdbcAuthentication().dataSource((DataSource) properties)
+                .usersByUsernameQuery(
+                        "/* SELECT username, password, ENABLED FROM users WHERE username=? */")
+                .authoritiesByUsernameQuery(
+                        "/* SELECT username, role FROM user_roles WHERE username=? */");
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -35,12 +53,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Create a default account
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password("password")
-                .roles("ADMIN");
-    }
 }
