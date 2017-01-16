@@ -16,7 +16,7 @@ public class SensorHandler extends TextWebSocketHandler {
         if (session != null && session.isOpen()) {
             try {
                 System.out.println("Now sending:" + counter);
-                session.sendMessage(new TextMessage("{\"value\": \"" + counter + "\"}"));
+                session.sendMessage(new TextMessage(String.valueOf(counter)));
             } catch (Exception e) {
                 e.printStackTrace();
             }
