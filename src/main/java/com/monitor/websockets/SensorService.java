@@ -7,16 +7,16 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
-public class CounterService {
+public class SensorService {
 
     private AtomicInteger counter = new AtomicInteger(0);
 
     @Autowired
-    CounterHandler counterHandler;
+    SensorHandler sensorHandler;
 
     @Scheduled(fixedDelay = 1000)
     public void sendCounterUpdate() {
-        counterHandler.counterIncrementedCallback(counter.incrementAndGet());
+        sensorHandler.counterIncrementedCallback(counter.incrementAndGet());
     }
 
 }

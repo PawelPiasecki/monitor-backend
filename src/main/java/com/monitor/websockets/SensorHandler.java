@@ -6,7 +6,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Component
-public class CounterHandler extends TextWebSocketHandler {
+public class SensorHandler extends TextWebSocketHandler {
 
     WebSocketSession session;
 

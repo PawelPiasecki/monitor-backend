@@ -10,6 +10,9 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
+/**
+ * Created by artur on 1/14/17.
+ */
 @EnableWebSocket
 @Configuration
 @EnableScheduling
@@ -20,13 +23,16 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(counterHandler(), "/sensor")
+
+        registry.addHandler(sensorHandler(), "/sensor")
                 .addInterceptors(new HttpSessionHandshakeInterceptor()).setAllowedOrigins("*");
 
     }
 
+
+
     @Bean
-    public WebSocketHandler counterHandler() {
+    public WebSocketHandler sensorHandler() {
         return new SensorHandler();
     }
 
