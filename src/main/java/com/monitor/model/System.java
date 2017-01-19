@@ -1,15 +1,14 @@
 package com.monitor.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by grusz on 19.01.2017.
  */
 @Entity
 public class System {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private String name;
     private String configPath;
