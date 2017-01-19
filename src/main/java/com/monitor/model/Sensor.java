@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 public class Sensor {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private String name;
     private String socketUrl;
@@ -17,6 +16,7 @@ public class Sensor {
 
     @Id
     @Column(name = "Id")
+    @GeneratedValue(strategy= GenerationType.AUTO)
     public int getId() {
         return id;
     }
