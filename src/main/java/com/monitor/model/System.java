@@ -1,33 +1,31 @@
 package com.monitor.model;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
- * Created by grusz on 16.12.2016.
+ * Created by grusz on 19.01.2017.
  */
 @Entity
-@Table(name="SYSTEMS")
 public class System {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="SYSTEM_ID")
-    private long systemID;
-
-    @Column(name="NAME")
+    private int id;
     private String name;
-    @Column(name="INFO")
-    private String info;
-    @Column(name="LOCALIZATION")
-    private String localization;
+    private String configPath;
 
-    @OneToMany(mappedBy = "system")
-    Set<Room> rooms;
+    @Id
+    @Column(name = "Id")
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
-
+    @Basic
+    @Column(name = "Name")
     public String getName() {
         return name;
     }
@@ -36,21 +34,35 @@ public class System {
         this.name = name;
     }
 
-    public String getInfo() {
-        return info;
+    @Basic
+    @Column(name = "ConfigPath")
+    public String getConfigPath() {
+        return configPath;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setConfigPath(String configPath) {
+        this.configPath = configPath;
     }
 
-    public String getLocalization() {
-        return localization;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        System system = (System) o;
+
+        if (id != system.id) return false;
+        if (name != null ? !name.equals(system.name) : system.name != null) return false;
+        if (configPath != null ? !configPath.equals(system.configPath) : system.configPath != null) return false;
+
+        return true;
     }
 
-    public void setLocalization(String localization) {
-        this.localization = localization;
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (configPath != null ? configPath.hashCode() : 0);
+        return result;
     }
-
-
 }
