@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 @Entity
 public class Room {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private String name;
 
