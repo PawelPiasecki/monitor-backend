@@ -2,6 +2,7 @@ package com.monitor.security;
 
 import com.monitor.security.jwt.JWTAuthenticationFilter;
 import com.monitor.security.jwt.JWTLoginFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.sql.DataSource;
+
 /**
  * Created by grusz on 02.01.2017.
  */
@@ -17,6 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -38,9 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // Create a default account
-        auth.inMemoryAuthentication()
+        /*auth.inMemoryAuthentication()
                 .withUser("admin")
                 .password("password")
-                .roles("ADMIN");
+                .roles("ADMIN");*/
+
+        auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("select login as principal, password_hash as credentials, true from system_user where login = ?").authoritiesByUsernameQuery("select login, 'ROLE_USER' from system_user where login=?");;
     }
 }
