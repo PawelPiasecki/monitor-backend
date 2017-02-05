@@ -28,4 +28,20 @@ public class Sensor {
     public void setName(String name) {
         this.name = name;
     }
+
+    public long getSensorID() {
+        return sensorID;
+    }
+
+    public void setSensorID(long sensorID) {
+        this.sensorID = sensorID;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 }

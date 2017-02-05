@@ -28,10 +28,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // disable caching
         http.headers().cacheControl();
+        http.headers().frameOptions().disable();
+
         //http.cors().and();
         http.csrf().disable() // disable csrf for our requests.
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("*").permitAll()
+                .antMatchers("/registration").permitAll()
                 .antMatchers("/websocket").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
                 .anyRequest().authenticated()
@@ -49,6 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("admin")
                 .password("password")
                 .roles("ADMIN");
+
     }
 
     /*@Bean

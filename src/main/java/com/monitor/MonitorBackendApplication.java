@@ -1,10 +1,16 @@
 package com.monitor;
 
+import com.monitor.cache.SensorHistoryCache;
+import com.monitor.repository.SensorRepository;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.core.MessageProducer;
@@ -13,51 +19,83 @@ import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 
+
 import javax.websocket.MessageHandler;
+import java.security.SecureRandom;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.monitor")
+@Configuration
 public class MonitorBackendApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MonitorBackendApplication.class, args);
-	}
+    @Autowired
+    SensorRepository sensorRepository;
 
-	@Bean
-	public MessageChannel mqttInputChannel() {
-		return new DirectChannel();
-	}
+    @Autowired
+    SensorHistoryCache sensorHistoryCache;
 
+    public static void main(String[] args) {
+        SpringApplication.run(MonitorBackendApplication.class, args);
+    }
 
-	@Bean
-	public MessageProducer inbound() {
-		MqttPahoMessageDrivenChannelAdapter adapter =
-				new MqttPahoMessageDrivenChannelAdapter("tcp://test.mosquitto.org", "pahomqttpublish1",
-						"temp/random");
-
-		adapter.setConverter(new DefaultPahoMessageConverter());
-		adapter.setQos(1);
-		adapter.setOutputChannel(mqttInputChannel());
-		adapter.addTopic();
-		return adapter;
-	}
+    @Bean
+    public MessageChannel mqttInputChannel() {
+        return new DirectChannel();
+    }
 
 
-	@Bean
-	@ServiceActivator(inputChannel = "mqttInputChannel")
-	public MessageHandler handler() {
-		return new MessageHandler() {
+    @Bean
+    public MessageProducer inbound() {
+        MqttPahoMessageDrivenChannelAdapter adapter =
+                new MqttPahoMessageDrivenChannelAdapter("tcp://localhost:1883", "pahomqttpublish1",
+                        "#");
+
+        adapter.setConverter(new DefaultPahoMessageConverter());
+        adapter.setQos(1);
+        adapter.setOutputChannel(mqttInputChannel());
+        adapter.addTopic();
+        return adapter;
+    }
 
 
-			public void handleMessage(Message<?> message) throws org.springframework.messaging.MessagingException {
-				System.out.println(message.getPayload());
+    @Bean
+    @ServiceActivator(inputChannel = "mqttInputChannel")
+    public MessageHandler handler() {
+        return new MessageHandler() {
 
 
+            public void handleMessage(Message<?> message) throws org.springframework.messaging.MessagingException {
+                System.out.println(message.getPayload());
+                if (message.getHeaders().containsValue("configuration")) {
+                    try {
+                        JSONObject obj = new JSONObject(message.getPayload().toString());
+                        JSONArray arr = obj.getJSONArray("sensor");
+                        for (int i = 0; i < arr.length(); i++) {
+                            String state_topic = arr.getJSONObject(i).getString("state_topic");
+                            System.out.println(state_topic);
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
 
+                } else {
+                    System.out.println(message.getHeaders().get("mqtt_topic"));
+                    sensorHistoryCache.addHistory((String) message.getHeaders().get("mqtt_topic"), message.getPayload().toString());
+                }
 
-			}
+            }
 
-		};
+        };
 
-	}
+    }
+
+    @Bean
+    public SecureRandom secureRandom() {
+        return new SecureRandom();
+    }
+
+    @Bean
+    public SensorHistoryCache sensorHistoryCache() {
+        return new SensorHistoryCache();
+    }
 }
