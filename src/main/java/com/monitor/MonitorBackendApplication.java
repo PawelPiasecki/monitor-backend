@@ -61,7 +61,7 @@ public class MonitorBackendApplication {
     @Bean
     public MessageProducer inbound() {
         MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter("tcp://localhost:1883", "pahomqttpublish1",
+                new MqttPahoMessageDrivenChannelAdapter("tcp://95.85.21.239:8883", "guest",
                         "#");
 
         adapter.setConverter(new DefaultPahoMessageConverter());
