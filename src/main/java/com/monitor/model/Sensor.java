@@ -1,25 +1,49 @@
 package com.monitor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
  * Created by grusz on 16.12.2016.
  */
 @Entity
-@Table(name="SENSORS")
 public class Sensor {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="SENSOR_ID")
-    private long sensorID;
-
-    @Column(name="NAME")
-    private String name;
+    private long id;
 
     @ManyToOne
+    @JsonIgnore
+    private System system;
+
+    private String name;
+
+    private String socketUrl;
+
+    private boolean isActive;
+
+    @ManyToOne
+    @JsonIgnore
     private Room room;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public System getSystem() {
+        return system;
+    }
+
+    public void setSystem(System system) {
+        this.system = system;
+    }
 
     public String getName() {
         return name;
@@ -29,12 +53,20 @@ public class Sensor {
         this.name = name;
     }
 
-    public long getSensorID() {
-        return sensorID;
+    public String getSocketUrl() {
+        return socketUrl;
     }
 
-    public void setSensorID(long sensorID) {
-        this.sensorID = sensorID;
+    public void setSocketUrl(String socketUrl) {
+        this.socketUrl = socketUrl;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public Room getRoom() {

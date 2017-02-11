@@ -21,15 +21,14 @@ import java.util.Base64;
 public class RegistrationController {
 
     @Autowired
-    SecureRandom secureRandom;
+    private SecureRandom secureRandom;
 
     @Autowired
-    UserRepository userRepository;
+   private UserRepository userRepository;
 
-    @Autowired
-    SensorHistoryCache sensorHistoryCache;
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(User user) {
 
 
@@ -53,8 +52,9 @@ public class RegistrationController {
             userToSave.setName(user.getName());
             userToSave.setLogin(user.getLogin());
             userToSave.setPasswordHash(passwordHash);
-            userToSave.setPasswordSalt(passwordSalt);
+            userToSave.setPasswordSalt(user.getPasswordHash());
 
+            System.out.println(userToSave.toString());
             userRepository.save(userToSave);
         } catch (Exception e) {
             System.out.println(e);
@@ -63,12 +63,17 @@ public class RegistrationController {
 
 
 
-        return "index";
+        return "registration";
     }
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/registration")
     public String registrationGet(User user) {
-        System.out.println(sensorHistoryCache.getHistoryCash());
-        return "index";
+
+        return "registration";
+    }
+
+    @RequestMapping("/test")
+    public String start() {
+        return "test";
     }
 }

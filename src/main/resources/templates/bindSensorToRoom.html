@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+
+
+    <!-- Website CSS style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous"></link>
+    <!-- Website Font style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"></link>
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'></link>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'></link>
+
+
+    <title>Admin</title>
+</head>
+<body>
+<div class="container">
+    <div class="row main">
+
+
+        <form action="#" th:action="@{/bindSensorToRoom}" th:object="${wrapper}" id="form1" th:method="PUT">
+
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>Sensor name</th>
+                    <th>Sensor id</th>
+                    <th>Room Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="currentSensor, stat : *{sensors}">
+                    <td th:text="*{sensors[__${stat.index}__].name}"></td>
+                    <td th:text="*{sensors[__${stat.index}__].id}"></td>
+                    <td><select th:field="*{sensors[__${stat.index}__].room}">
+                        <option th:each="room : ${rooms}"
+                                th:value="${room.id}"
+                                th:text="${room.name}">Wireframe</option>
+                    </select></td>
+                    <input type="hidden" th:field="*{sensors[__${stat.index}__].id}" />
+                    <input type="hidden" th:field="*{sensors[__${stat.index}__].name}" />
+                    <input type="hidden" th:field="*{sensors[__${stat.index}__].socketUrl}" />
+                    <input type="hidden" th:field="*{sensors[__${stat.index}__].isActive}" />
+                    <input type="hidden" th:field="*{sensors[__${stat.index}__].system}" />
+                </tr>
+                </tbody>
+            </table>
+            <button type="submit" form="form1" value="submit" class="btn btn-success">Submit</button>
+        </form>
+
+    </div>
+</div>
+
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous">
+
+</script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 package com.monitor.cache;
 
 import com.monitor.model.Room;
+import com.monitor.repository.RoomRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +15,9 @@ import java.util.ArrayList;
 @RequestMapping("/")
 public class RoomController {
 
+    @Autowired
+    RoomRepository roomRepository;
+
     @RequestMapping("rooms")
     public ArrayList<Room> findAllRooms(){
         Room room1 = new Room();
@@ -23,4 +28,5 @@ public class RoomController {
         return rooms;
 
     }
+
 }

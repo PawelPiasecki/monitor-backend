@@ -9,24 +9,39 @@ import java.util.Set;
  * Created by grusz on 16.12.2016.
  */
 @Entity
-@Table(name="SYSTEMS")
 public class System {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="SYSTEM_ID")
-    private long systemID;
+    private long id;
 
-    @Column(name="NAME")
     private String name;
-    @Column(name="INFO")
-    private String info;
-    @Column(name="LOCALIZATION")
-    private String localization;
+
+    private String configPath;
 
     @OneToMany(mappedBy = "system")
-    Set<Room> rooms;
+    private List<Room> rooms;
 
 
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public System() {
+        this.rooms = new ArrayList<>();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -36,21 +51,16 @@ public class System {
         this.name = name;
     }
 
-    public String getInfo() {
-        return info;
+    public String getConfigPath() {
+        return configPath;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setConfigPath(String configPath) {
+        this.configPath = configPath;
     }
 
-    public String getLocalization() {
-        return localization;
+    public void addRoom(Room room){
+       this.rooms.add(room);
     }
-
-    public void setLocalization(String localization) {
-        this.localization = localization;
-    }
-
 
 }
