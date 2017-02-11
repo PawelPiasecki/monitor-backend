@@ -1,4 +1,4 @@
-package com.monitor.controller;
+package com.monitor.rest_controller;
 
 import com.monitor.model.Room;
 import com.monitor.model.Sensor;
@@ -17,16 +17,11 @@ import java.util.stream.Collectors;
  * Created by artur on 2/5/17.
  */
 @RestController
-public class SensorController {
-
-    @Autowired
-    SensorRepository sensorRepository;
+public class SystemController {
 
     @Autowired
     SystemRepository systemRepository;
 
-    @Autowired
-    RoomRepository roomRepository;
 
 
     @RequestMapping("/systems")
