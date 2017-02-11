@@ -28,6 +28,9 @@ public class WebSocketController {
 
         String topic  =   systemId + "/" + sensorId;
         String message  = sensorHistoryCache.getHistoryCash().get(topic);
+        if (message == null){
+            message = "brak wartosci";
+        }
         System.out.println(message);
         simpMessagingTemplate.convertAndSend("/" + systemId + "/" + sensorId, message);
     }
