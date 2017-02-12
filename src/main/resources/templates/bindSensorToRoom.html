@@ -23,7 +23,7 @@
     <div class="row main">
 
 
-        <form action="#" th:action="@{/bindSensorToRoom}" th:object="${wrapper}" id="form1" th:method="PUT">
+        <form action="#" th:action="@{/bindSensorToRoom} +'/' + ${system.id}" th:object="${wrapper}" id="form1" th:method="PUT">
 
             <table class="table table-bordered table-hover table-striped">
                 <thead>

@@ -15,5 +15,5 @@ public interface SensorRepository extends CrudRepository<Sensor,Long>{
 
     List<Sensor> findByName(String name);
 
-    List<Sensor> findByIsActiveAndId(boolean isActive, long id);
+    List<Sensor> findByIsActiveAndSystem(boolean isActive, com.monitor.model.System system);
 }

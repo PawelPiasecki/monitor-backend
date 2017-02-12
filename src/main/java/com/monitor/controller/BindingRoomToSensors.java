@@ -5,10 +5,12 @@ import com.monitor.model.Sensor;
 import com.monitor.model.User;
 import com.monitor.repository.RoomRepository;
 import com.monitor.repository.SensorRepository;
+import com.monitor.repository.SystemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,41 +29,41 @@ public class BindingRoomToSensors {
     @Autowired
     RoomRepository roomRepository;
 
-    @RequestMapping("/bindSensorToRoom")
-    public String index(Model model) {
+    @Autowired
+    SystemRepository systemRepository;
+
+    @RequestMapping("/bindSensorToRoom/{id}")
+    public String index(Model model, @PathVariable long id) {
         SensorFormWrapper sensorFormWrapper = new SensorFormWrapper();
-        List<Sensor> sensorList = (List<Sensor>) sensorRepository.findAll();
+        com.monitor.model.System system = systemRepository.findOne(id);
+        List<Sensor> sensorList = (List<Sensor>) sensorRepository.findByIsActiveAndSystem(true, system);
         sensorFormWrapper.setSensors(sensorList);
         System.out.println(sensorFormWrapper.getSensors());
         model.addAttribute("wrapper", sensorFormWrapper);
-
+        model.addAttribute("rooms", roomRepository.findBySystem(system));
+        model.addAttribute("system", system);
         return "bindSensorToRoom";
 
     }
 
 
-    @RequestMapping(value = "/bindSensorToRoom", method = RequestMethod.PUT)
-    public String processQuery(@ModelAttribute SensorFormWrapper wrapper, Model model) {
+    @RequestMapping(value = "/bindSensorToRoom/{id}", method = RequestMethod.PUT)
+    public String processQuery(@ModelAttribute SensorFormWrapper wrapper, Model model, @PathVariable long id) {
 
 
         System.out.println(wrapper.getSensors().get(1).getId());
         System.out.println(wrapper.getSensors().get(1).getRoom().getName());
 
+        wrapper.getSensors().forEach(s -> s.setActive(true));
         sensorRepository.save(wrapper.getSensors());
-
-
 
 
         List<Sensor> sensorList = (List<Sensor>) sensorRepository.findAll();
         wrapper.setSensors(sensorList);
         model.addAttribute("wrapper", wrapper);
 
-        return "redirect:bindSensorToRoom.html";
+        return "redirect:/bindSensorToRoom/"+id;
     }
 
-    @ModelAttribute("rooms")
-    public List<Room> rooms() {
-        return (List<Room>) roomRepository.findAll();
-    }
 
 }

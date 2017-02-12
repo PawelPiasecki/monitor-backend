@@ -100,7 +100,7 @@
             </div>
         </div>
         <div class="main-login main-center">
-            <form class="form-horizontal" action="#" th:action="@{/addRoom}" th:object="${room}" method="post">
+            <form class="form-horizontal" action="#" th:action="@{/addRoom} +'/'+ ${room.system.id}" th:object="${room}" method="post">
 
                 <div class="form-group">
                     <label for="name" class="cols-sm-2 control-label">Nazwa pokoju</label>
@@ -118,6 +118,7 @@
                         Dodaj
                     </button>
                 </div>
+                <input type="hidden" th:field="*{system}" />
             </form>
 
 

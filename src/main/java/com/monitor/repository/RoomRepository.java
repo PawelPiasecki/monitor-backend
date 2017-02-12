@@ -15,5 +15,7 @@ import java.util.List;
 public interface  RoomRepository extends CrudRepository<Room,Integer>{
 
     List<Room> findByName(String name);
+
+    List<Room> findBySystem(com.monitor.model.System system);
 }
 

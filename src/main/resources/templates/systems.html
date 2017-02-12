@@ -21,8 +21,17 @@
 <body>
 <div class="container">
     <div class="row main">
-        <div class="panel panel-default">
+        <div class="panel panel-default text-center" th:each="system : ${systems}" >
             <div class="panel-body">
+                <h3  th:text="'Nazwa systemu ' + ${system.name}"></h3>
+                <form method="get" th:action="@{/addRoom} + '/' + ${system.id}">
+                    <button type="submit" class="btn btn-primary">Dodaj pokoje</button>
+                </form>
+                <br/>
+                <form method="get" th:action="@{/bindSensorToRoom} + '/' + ${system.id}">
+                    <button type="submit" class="btn btn-primary">Przypisz sensory do pokojów</button>
+                </form>
+                <br/>
 
             </div>
         </div>
