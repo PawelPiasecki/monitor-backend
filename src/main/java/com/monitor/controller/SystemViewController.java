@@ -3,6 +3,8 @@ package com.monitor.controller;
 import com.monitor.model.Room;
 import com.monitor.repository.SystemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ public class SystemViewController {
 
     @RequestMapping("/view/systems")
     public String systemView(){
+
         return "systems";
     }
 }

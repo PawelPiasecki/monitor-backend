@@ -63,7 +63,7 @@ public class RegistrationController {
 
 
 
-        return "registration";
+        return "redirect:/view/systems";
     }
 
     @RequestMapping(value = "/registration")

@@ -24,6 +24,7 @@ import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import com.monitor.model.User;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import javax.websocket.MessageHandler;
 import java.security.SecureRandom;
@@ -35,6 +36,8 @@ import java.util.stream.Collectors;
 @ComponentScan(basePackages = "com.monitor")
 @Configuration
 public class MonitorBackendApplication {
+
+
 
     @Autowired
     SensorRepository sensorRepository;
@@ -111,11 +114,12 @@ public class MonitorBackendApplication {
                         }
 
 
-                        List<Sensor> sensorList = (List<Sensor>) sensorRepository.findAll();
+                        List<Sensor> sensorList = (List<Sensor>) sensorRepository.findByIsActiveAndSystem(true, system);
                         sensorList.forEach(s -> s.setActive(false));
 
 
                         Room room = roomRepository.findByName(systemName + "default").get(0);
+
                         for (int i = 0; i < arr.length(); i++) {
                             String state_topic = arr.getJSONObject(i).getString("state_topic");
 
@@ -129,6 +133,27 @@ public class MonitorBackendApplication {
                             sensorRepository.save(sensor);
 
                         }
+
+                        arr = obj.getJSONArray("alarm_control_panel");
+                        for (int i = 0; i < arr.length(); i++) {
+                            String state_topic = arr.getJSONObject(i).getString("state_topic");
+
+
+                            Sensor sensor = new Sensor();
+                            sensor.setActive(true);
+                            sensor.setName(arr.getJSONObject(i).getString("name"));
+                            sensor.setSocketUrl(state_topic);
+                            sensor.setSystem(system);
+                            sensor.setRoom(room);
+                            sensorRepository.save(sensor);
+
+                        }
+
+
+
+
+
+
 
 
                         systemRepository.save(system);

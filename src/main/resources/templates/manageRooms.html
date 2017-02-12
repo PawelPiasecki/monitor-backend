@@ -121,35 +121,24 @@
     <div class="row main">
 
 
-        <form action="#" th:action="@{/view/bindSensorToRoom} +'/' + ${system.id}" th:object="${wrapper}" id="form1" th:method="PUT">
+
 
             <table class="table table-bordered table-hover table-striped">
                 <thead>
                 <tr>
-                    <th>Sensor name</th>
-                    <th>Sensor id</th>
-                    <th>Room Name</th>
+                    <th>Room name</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="currentSensor, stat : *{sensors}">
-                    <td th:text="*{sensors[__${stat.index}__].name}"></td>
-                    <td th:text="*{sensors[__${stat.index}__].id}"></td>
-                    <td><select th:field="*{sensors[__${stat.index}__].room}">
-                        <option th:each="room : ${rooms}"
-                                th:value="${room.id}"
-                                th:text="${room.name}">Wireframe</option>
-                    </select></td>
-                    <input type="hidden" th:field="*{sensors[__${stat.index}__].id}" />
-                    <input type="hidden" th:field="*{sensors[__${stat.index}__].name}" />
-                    <input type="hidden" th:field="*{sensors[__${stat.index}__].socketUrl}" />
-                    <input type="hidden" th:field="*{sensors[__${stat.index}__].isActive}" />
-                    <input type="hidden" th:field="*{sensors[__${stat.index}__].system}" />
+                <tr th:each="room : ${rooms}">
+                    <td style="text-align: center;" th:text="${room.name}"></td>
+                    <td><a class="navbarLink" id="xsd" th:href="'/view/deleteRoom/' + ${room.id}">Usuń pokój</a></td>
                 </tr>
+
                 </tbody>
             </table>
-            <button type="submit" form="form1" value="submit" class="btn btn-success">Submit</button>
-        </form>
+
+
 
     </div>
 </div>

@@ -6,12 +6,11 @@ import com.monitor.repository.SystemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by artur on 2/9/17.
@@ -25,7 +24,7 @@ public class AddRoomController {
     @Autowired
     SystemRepository systemRepository;
 
-    @RequestMapping("/addRoom/{id}")
+    @RequestMapping("view/addRoom/{id}")
     public String registrationGet(Model model, @PathVariable long id) {
 
         Room room = new Room();
@@ -36,7 +35,7 @@ public class AddRoomController {
         return "addRoom";
     }
 
-    @RequestMapping(value = "/addRoom/{systemId}", method = RequestMethod.POST)
+    @RequestMapping(value = "view/addRoom/{systemId}", method = RequestMethod.POST)
     public String registration(Room room, @PathVariable long systemId) {
 
         Room roomToSave = new Room();
@@ -47,11 +46,18 @@ public class AddRoomController {
         systemRepository.save(system);
         roomRepository.save(roomToSave);
         System.out.println(systemId);
-        String url = "redirect:/addRoom/" + systemId;
+        String url = "redirect:/view/addRoom/" + systemId;
 
         return url;
-
-
     }
 
+    @RequestMapping(value = "/view/loginxd", method = RequestMethod.GET)
+    public String getLoginPage() {
+        return "login1";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String redirectxd() {
+        return "redirect:/view/systems";
+    }
 }

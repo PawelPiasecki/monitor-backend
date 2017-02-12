@@ -32,7 +32,7 @@ public class BindingRoomToSensors {
     @Autowired
     SystemRepository systemRepository;
 
-    @RequestMapping("/bindSensorToRoom/{id}")
+    @RequestMapping("view/bindSensorToRoom/{id}")
     public String index(Model model, @PathVariable long id) {
         SensorFormWrapper sensorFormWrapper = new SensorFormWrapper();
         com.monitor.model.System system = systemRepository.findOne(id);
@@ -47,7 +47,7 @@ public class BindingRoomToSensors {
     }
 
 
-    @RequestMapping(value = "/bindSensorToRoom/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "view/bindSensorToRoom/{id}", method = RequestMethod.PUT)
     public String processQuery(@ModelAttribute SensorFormWrapper wrapper, Model model, @PathVariable long id) {
 
 
@@ -62,7 +62,7 @@ public class BindingRoomToSensors {
         wrapper.setSensors(sensorList);
         model.addAttribute("wrapper", wrapper);
 
-        return "redirect:/bindSensorToRoom/"+id;
+        return "redirect:/view/bindSensorToRoom/"+id;
     }
 
 
