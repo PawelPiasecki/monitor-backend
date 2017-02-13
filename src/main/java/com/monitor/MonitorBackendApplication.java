@@ -33,8 +33,6 @@ import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.monitor")
-@Configuration
 public class MonitorBackendApplication {
 
 
@@ -64,7 +62,7 @@ public class MonitorBackendApplication {
     @Bean
     public MessageProducer inbound() {
         MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter("tcp://95.85.21.239:8883", "guest1",
+                new MqttPahoMessageDrivenChannelAdapter("tcp://95.85.21.239:8883", "guestaa1",
                         "#");
 
         adapter.setConverter(new DefaultPahoMessageConverter());
