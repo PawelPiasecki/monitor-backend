@@ -59,6 +59,7 @@ public class BindingRoomToSensors {
 
 
         List<Sensor> sensorList = (List<Sensor>) sensorRepository.findAll();
+
         wrapper.setSensors(sensorList);
         model.addAttribute("wrapper", wrapper);
 

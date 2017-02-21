@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter{
+public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private TokenAuthenticationService tokenAuthenticationService;
 
@@ -36,7 +36,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter{
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication)
-            throws IOException, ServletException{
+            throws IOException, ServletException {
         String name = authentication.getName();
         tokenAuthenticationService.addAuthentication(response,name);
     }

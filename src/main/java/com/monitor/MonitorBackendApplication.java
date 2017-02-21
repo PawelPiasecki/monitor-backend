@@ -36,7 +36,6 @@ import java.util.stream.Collectors;
 public class MonitorBackendApplication {
 
 
-
     @Autowired
     SensorRepository sensorRepository;
 
@@ -62,7 +61,7 @@ public class MonitorBackendApplication {
     @Bean
     public MessageProducer inbound() {
         MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter("tcp://95.85.21.239:8883", "guest",
+                new MqttPahoMessageDrivenChannelAdapter("tcp://95.85.21.239:8883", "guest1",
                         "#");
 
         adapter.setConverter(new DefaultPahoMessageConverter());
@@ -77,7 +76,6 @@ public class MonitorBackendApplication {
     @ServiceActivator(inputChannel = "mqttInputChannel")
     public MessageHandler handler() {
         return new MessageHandler() {
-
 
             public void handleMessage(Message<?> message) throws org.springframework.messaging.MessagingException {
                 System.out.println(message.getPayload());
@@ -148,12 +146,6 @@ public class MonitorBackendApplication {
                         }
 
 
-
-
-
-
-
-
                         systemRepository.save(system);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -174,10 +166,6 @@ public class MonitorBackendApplication {
 
     }
 
-    @Bean
-    public SecureRandom secureRandom() {
-        return new SecureRandom();
-    }
 
     @Bean
     public SensorHistoryCache sensorHistoryCache() {
