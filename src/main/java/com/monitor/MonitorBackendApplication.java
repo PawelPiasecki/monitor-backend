@@ -61,7 +61,7 @@ public class MonitorBackendApplication {
     @Bean
     public MessageProducer inbound() {
         MqttPahoMessageDrivenChannelAdapter adapter =
-                new MqttPahoMessageDrivenChannelAdapter("tcp://95.85.21.239:8883", "guest1",
+                new MqttPahoMessageDrivenChannelAdapter("tcp://95.85.21.239:8883", "guest0",
                         "#");
 
         adapter.setConverter(new DefaultPahoMessageConverter());
@@ -110,8 +110,10 @@ public class MonitorBackendApplication {
                         }
 
 
-                        List<Sensor> sensorList = (List<Sensor>) sensorRepository.findByIsActiveAndSystem(true, system);
+                        List<Sensor> sensorList = (List<Sensor>) sensorRepository.findBySystem(system);
                         sensorList.forEach(s -> s.setActive(false));
+                        sensorRepository.save(sensorList);
+
 
 
                         Room room = roomRepository.findByName(systemName + "default").get(0);
@@ -147,6 +149,9 @@ public class MonitorBackendApplication {
 
 
                         systemRepository.save(system);
+
+                        List<Sensor> sensor = sensorRepository.findBySystem(system);
+                        sensor.forEach(s -> System.out.println(s.getIsActive()));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

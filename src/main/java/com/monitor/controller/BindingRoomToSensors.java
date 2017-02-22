@@ -37,6 +37,7 @@ public class BindingRoomToSensors {
         SensorFormWrapper sensorFormWrapper = new SensorFormWrapper();
         com.monitor.model.System system = systemRepository.findOne(id);
         List<Sensor> sensorList = (List<Sensor>) sensorRepository.findByIsActiveAndSystem(true, system);
+        sensorList.forEach(s -> System.out.println(s.getIsActive() + " " + s.getName()));
         sensorFormWrapper.setSensors(sensorList);
         System.out.println(sensorFormWrapper.getSensors());
         model.addAttribute("wrapper", sensorFormWrapper);
@@ -54,11 +55,12 @@ public class BindingRoomToSensors {
         System.out.println(wrapper.getSensors().get(1).getId());
         System.out.println(wrapper.getSensors().get(1).getRoom().getName());
 
+        com.monitor.model.System system = systemRepository.findOne(id);
         wrapper.getSensors().forEach(s -> s.setActive(true));
         sensorRepository.save(wrapper.getSensors());
 
 
-        List<Sensor> sensorList = (List<Sensor>) sensorRepository.findAll();
+        List<Sensor> sensorList = (List<Sensor>) sensorRepository.findByIsActiveAndSystem(true, system);
 
         wrapper.setSensors(sensorList);
         model.addAttribute("wrapper", wrapper);

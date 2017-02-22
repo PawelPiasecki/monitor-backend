@@ -130,14 +130,12 @@
                 <thead>
                 <tr>
                     <th>Sensor name</th>
-                    <th>Sensor id</th>
                     <th>Room Name</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="currentSensor, stat : *{sensors}">
                     <td th:text="*{sensors[__${stat.index}__].name}"></td>
-                    <td th:text="*{sensors[__${stat.index}__].id}"></td>
                     <td><select th:field="*{sensors[__${stat.index}__].room}">
                         <option th:each="room : ${rooms}"
                                 th:value="${room.id}"
