@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class TokenAuthenticationService {
 
-    private long EXPIRATIONTIME = 0; // never expire
+    private long EXPIRATIONTIME = 1000 * 60 * 60 * 24 * 365; // never expire
     private String secret = "07q43rxbGOqJnVI607rMfsTFtJ8h5DriWcvistnYu2qqWEf1dPBU01NhZrh9IaD"; //random generated secret
     private String tokenPrefix = "Bearer";
     private String headerString = "Authorization";

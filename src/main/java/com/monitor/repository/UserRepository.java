@@ -1,18 +1,16 @@
 package com.monitor.repository;
 
-import com.monitor.model.System;
+import com.monitor.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
 /**
- * Created by grusz on 17.12.2016.
+ * Created by artur on 1/29/17.
  */
-
 @RepositoryRestResource
-public interface SystemRepository extends CrudRepository<System,Long>{
+public interface UserRepository extends CrudRepository<User, Long> {
 
-    List<System> findByName(String name);
+    List<User> findByLogin(String login);
 }
-
