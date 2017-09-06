@@ -23,9 +23,9 @@ public class RoomController {
     SystemRepository systemRepository;
 
     @RequestMapping("/api/rooms/{id}")
-    public List<Room> roomList(@PathVariable long systemId){
+    public List<Room> roomList(@PathVariable int id){
 
-        com.monitor.model.System  system = systemRepository.findOne(systemId);
+        com.monitor.model.System  system = systemRepository.findOne(Integer.toUnsignedLong(id));
         List<Room> rooms = roomRepository.findBySystem(system);
 
         return rooms;

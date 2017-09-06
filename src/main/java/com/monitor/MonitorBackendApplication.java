@@ -87,16 +87,17 @@ public class MonitorBackendApplication {
                         JSONArray arr = obj.getJSONArray("sensor");
 
                         String topic = arr.getJSONObject(1).getString("state_topic");
-                        StringTokenizer stringTokenizer = new StringTokenizer(topic, "/");
 
-                        String systemName = (String) stringTokenizer.nextElement();
+                        long numberOfSystems = systemRepository.count();
+
+                        String systemName = "home"  + numberOfSystems;
                         System.out.println(systemName + " this is system name");
 
                         com.monitor.model.System system;
 
                         if (systemRepository.findByName(systemName).isEmpty()) {
                             Room room = new Room();
-                            room.setName(systemName + "default");
+                            room.setName(systemName + "_default");
 
                             system = new com.monitor.model.System();
                             system.setName(systemName);
@@ -116,7 +117,7 @@ public class MonitorBackendApplication {
                         sensorList.forEach(s -> s.setActive(false));
 
 
-                        Room room = roomRepository.findByName(systemName + "default").get(0);
+                        Room room = roomRepository.findByName(systemName + "_default").get(0);
 
                         for (int i = 0; i < arr.length(); i++) {
                             String state_topic = arr.getJSONObject(i).getString("state_topic");
@@ -125,7 +126,7 @@ public class MonitorBackendApplication {
                             Sensor sensor = new Sensor();
                             sensor.setActive(true);
                             sensor.setName(arr.getJSONObject(i).getString("name"));
-                            sensor.setSocketUrl(state_topic);
+                            sensor.setSocketUrl(systemName + "/" +state_topic);
                             sensor.setSystem(system);
                             sensor.setRoom(room);
                             sensorRepository.save(sensor);
@@ -140,7 +141,7 @@ public class MonitorBackendApplication {
                             Sensor sensor = new Sensor();
                             sensor.setActive(true);
                             sensor.setName(arr.getJSONObject(i).getString("name"));
-                            sensor.setSocketUrl(state_topic);
+                            sensor.setSocketUrl(systemName + "/" +state_topic);
                             sensor.setSystem(system);
                             sensor.setRoom(room);
                             sensorRepository.save(sensor);

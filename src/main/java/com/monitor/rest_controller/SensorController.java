@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,9 +24,15 @@ public class SensorController {
     SensorRepository sensorRepository;
 
     @RequestMapping("/api/sensors/{systemId}")
-    public List<Sensor> sensors(@PathVariable long systemId){
-        com.monitor.model.System  system = systemRepository.findOne(systemId);
-        List<Sensor> sensors =   sensorRepository.findByIsActiveAndSystem(true, system);
-         return sensors;
+    public List<Sensor> sensors(@PathVariable long systemId) {
+        com.monitor.model.System system = systemRepository.findOne(systemId);
+        List<Sensor> sensors = sensorRepository.findByIsActiveAndSystem(true, system);
+        return sensors;
+    }
+
+    @RequestMapping("/api/sensors")
+    public List<Sensor> getAllSensors() {
+        List<Sensor> sensors = (ArrayList) sensorRepository.findAll();
+        return sensors;
     }
 }

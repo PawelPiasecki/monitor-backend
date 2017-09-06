@@ -1,0 +1,49 @@
+{
+  "binary_sensor": [
+    {
+      "invert_logic": true,
+      "bounce_time": 300,
+      "platform": "rpi_gpio",
+      "ports": {
+        "21": "Button alarm"
+      }
+    }
+  ],
+  "sensor": [
+    {
+      "state_topic": "temperature",
+      "unit_of_measurement": "No.",
+      "platform": "mqtt",
+      "name": "temperature"
+    },
+    {
+      "state_topic": "humidity",
+      "unit_of_measurement": "No.",
+      "platform": "mqtt",
+      "name": "humidity"
+    }
+  ],
+  "alarm_control_panel": [
+    {
+      "state_topic": "alarm/big_red_button",
+      "platform": "mqtt",
+      "command_topic": "alarm/big_red_button/set",
+      "name": "Button alarm",
+      "payload_disarm": "disarmed"
+    },
+    {
+      "state_topic": "MQ2",
+      "platform": "mqtt",
+      "command_topic": "MQ2",
+      "name": "gas alarm",
+      "payload_disarm": "disarmed"
+    },
+    {
+      "state_topic": "MS",
+      "platform": "mqtt",
+      "command_topic": "MS",
+      "name": "motion",
+      "payload_disarm": "armed_home"
+    }
+  ]
+}

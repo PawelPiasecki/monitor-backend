@@ -1,0 +1,52 @@
+{
+  "sensor": [
+    {
+      "platform": "mqtt",
+      "name": "DHT11_temperature",
+      "state_topic": "home1/temperature",
+      "unit_of_measurement": "degrees"
+    },
+    {
+      "platform": "mqtt",
+      "name": "DHT11_humidity",
+      "state_topic": "home1/DHT11_humidity",
+      "unit_of_measurement": "No."
+    },
+    {
+      "platform": "mqtt",
+      "name": "DS18B20_temperature",
+      "state_topic": "home1/DS18B20_temperature",
+      "unit_of_measurement": "degrees"
+    }
+  ],
+  "alarm_control_panel": [
+    {
+      "platform": "mqtt",
+      "name": "Reedrelay_doors",
+      "state_topic": "home1/Reedrelay_doors",
+      "command_topic": "Reedrelay_doors",
+      "payload_disarm": "disarmed"
+    },
+    {
+      "platform": "mqtt",
+      "name": "panic button",
+      "state_topic": "home1/big_red_button",
+      "command_topic": "home1/big_red_button",
+      "payload_disarm": "disarmed"
+    },
+    {
+      "platform": "mqtt",
+      "name": "MQ2_gas",
+      "state_topic": "home1/MQ2_gas",
+      "command_topic": "MQ2_gas",
+      "payload_disarm": "disarmed"
+    },
+    {
+      "platform": "mqtt",
+      "name": "PIR_motion",
+      "state_topic": "home1/PIR_motion",
+      "command_topic": "PIR_motion",
+      "payload_disarm": "disarmed"
+    }
+  ]
+}
